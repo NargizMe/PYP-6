@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stopwatch">
+    <h1>Stopwatch</h1>
+    <div id="timer" role="timer">00:00:000</div>
+    <button id="start-button">Start</button>
+    <button id="stop-button">Stop</button>
+    <button id="reset-button">Reset</button>
+</div>
+
+<script>
+    let milliSeconds = 0;
+    let seconds = 0;
+    let minute = 0;
+    let timer = document.getElementById('timer');
+    let start =  document.getElementById('start-button');
+    let stop =  document.getElementById('stop-button');
+    let reset =  document.getElementById('reset-button');
+    let interval;
+
+    start.onclick = function() {
+        interval = setInterval(startTimer, 0,1);
+        this.disabled = true;
+        stop.disabled = false;
+        reset.disabled = true;
+    }
+
+    reset.onclick = function() {
+        clearInterval(interval);
+        timer.innerHTML = '00:00:000';
+        this.disabled = true;
+        reset.disabled = true;
+        start.disabled = false
+    }
+
+    function stopTimer (){
+        clearInterval(interval);
+        this.disabled = true;
+        reset.disabled = false;
+        start.disabled = false;
+    }
+
+    stop.onclick = stopTimer;
+
+
+
+
+    function startTimer () {
+        milliSeconds++;
+
+        if(milliSeconds > 0 && milliSeconds<=9){
+            timer.innerHTML = `0${minute}:0${seconds}:00${milliSeconds}`;
+        }
+        if(milliSeconds > 9 && milliSeconds<=99){
+            timer.innerHTML = `0${minute}:0${seconds}:0${milliSeconds}`;
+        }
+        if(milliSeconds > 100 && milliSeconds<=999){
+            timer.innerHTML = `0${minute}:0${seconds}:${milliSeconds}`
+        }
+        if(milliSeconds === 1000){
+            seconds++;
+            milliSeconds = 0;
+        }
+        if(seconds > 9 && seconds <= 59){
+            timer.innerHTML = `0${minute}:${seconds}:${milliSeconds}`
+        }
+        if(seconds === 60){
+            seconds = 0;
+            minute++;
+        }
+
+        if(minute === 59 && seconds === 59 && milliSeconds === 999){
+            stopTimer();
+        }
+    }
+
+</script>
+</body>
+</html>
